@@ -1,0 +1,11 @@
+extracted/*
+magisk/*
+kernel/*
+original/*
+*.img
+*.crt
+*.key
+*.apk
+*.zip
+*.patched
+*.bin
