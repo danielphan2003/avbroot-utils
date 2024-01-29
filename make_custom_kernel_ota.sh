@@ -2,8 +2,8 @@
 export PRJ_ROOT="$(pwd)"
 
 # Extract kernel zip
-unzip -u ./kernel.zip Image.lz4
-mv Image.lz4 ./kernel/
+unzip -u ./kernel.zip Image.*
+mv Image.* ./kernel/
 
 unzip -u ./kernel.zip dtbo.img
 mv dtbo.img ./kernel/
@@ -20,7 +20,7 @@ avbroot avb unpack -i ../boot.img
 avbroot boot unpack -i raw.img
 
 # Replace the kernel component
-cp "$PRJ_ROOT"/kernel/Image.lz4 kernel.img
+cp "$PRJ_ROOT"/kernel/Image.* kernel.img
 
 # Repack boot.img
 avbroot boot pack -o raw.img
@@ -38,14 +38,24 @@ cp "$PRJ_ROOT"/kernel/dtbo.img raw.img
 avbroot avb pack -o ../dtbo.modified.img -k "$PRJ_ROOT"/avb.key
 
 # Patch the OTA
-cd "$PRJ_ROOT"
-avbroot ota patch \
+function patch_ota () {
+  cd "$PRJ_ROOT"
+  avbroot ota patch \
     --input ./original_ota.zip \
     --key-avb ./avb.key \
     --key-ota ./ota.key \
     --cert-ota ./ota.crt \
     --replace boot ./extracted/boot.modified.img \
     --replace dtbo ./extracted/dtbo.modified.img \
-    --magisk ./magisk.apk \
-    --magisk-preinit-device metadata
+    "$@"
+}
+
+if [ "$1" == "--magisk" ]; then
+  patch_ota --magisk ./magisk.apk \
+    --magisk-preinit-device metadata \
+    --output original_ota.custom_kernel_magisk.zip.patched
+else
+  patch_ota --rootless \
+    --output original_ota.custom_kernel.zip.patched
+fi
 
