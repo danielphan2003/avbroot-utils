@@ -6,6 +6,7 @@ OUTPUT_DIR=""
 ORIGINAL_OTA=""
 ORIGINAL_OTA_FILE_NAME=""
 ORIGINAL_OTA_NO_EXT=""
+DATE="$(date +%Y-%m-%d_%H-%M-%S)"
 
 while [[ "$#" -gt 0 ]]; do
     case $1 in
@@ -47,10 +48,14 @@ if [ -z "$ORIGINAL_OTA" ]; then
 fi
 
 cd "$PRJ_ROOT"
+OUTPUT_OTA="$OUTPUT_DIR/$ORIGINAL_OTA_FILE_NAME.$DATE.normal.patched"
 avbroot ota patch \
     --input "$ORIGINAL_OTA" \
-    --output "$OUTPUT_DIR/$ORIGINAL_OTA_FILE_NAME.patched" \
+    --output "$OUTPUT_OTA" \
     --key-avb "$TARGET/avb.key" \
     --key-ota "$TARGET/ota.key" \
     --cert-ota "$TARGET/ota.crt" \
     --rootless
+
+echo [*] Expect patched OTA: $OUTPUT_OTA
+

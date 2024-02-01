@@ -8,6 +8,7 @@ ORIGINAL_OTA_FILE_NAME=""
 ORIGINAL_OTA_NO_EXT=""
 MAGISK_APK=""
 MAGISK_PREINIT_DEVICE=""
+DATE="$(date +%Y-%m-%d_%H-%M-%S)"
 
 while [[ "$#" -gt 0 ]]; do
     case $1 in
@@ -67,11 +68,15 @@ if [ -z "$MAGISK_PREINIT_DEVICE" ]; then
 fi
 
 cd "$PRJ_ROOT"
+OUTPUT_OTA="$OUTPUT_DIR/$ORIGINAL_OTA_FILE_NAME.$DATE.magisk.patched"
 avbroot ota patch \
     --input "$ORIGINAL_OTA" \
-    --output "$OUTPUT_DIR/$ORIGINAL_OTA_FILE_NAME.magisk.patched" \
+    --output "$OUTPUT_OTA" \
     --key-avb "$TARGET/avb.key" \
     --key-ota "$TARGET/ota.key" \
     --cert-ota "$TARGET/ota.crt" \
     --magisk "$MAGISK_APK" \
     --magisk-preinit-device "$MAGISK_PREINIT_DEVICE"
+
+echo [*] Expect patched OTA: $OUTPUT_OTA
+

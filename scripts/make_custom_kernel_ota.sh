@@ -12,6 +12,7 @@ ORIGINAL_OTA_NO_EXT=""
 EXTRACTED_ORIGINAL_OTA=""
 MAGISK_APK=""
 MAGISK_PREINIT_DEVICE=""
+DATE="$(date +%Y-%m-%d_%H-%M-%S)"
 
 while [[ "$#" -gt 0 ]]; do
     case $1 in
@@ -142,15 +143,22 @@ prepare
 patch_boot
 patch_dtbo
 
+OUTPUT_OTA="$OUTPUT_DIR/$ORIGINAL_OTA_FILE_NAME.$DATE.custom_kernel"
+
 if [ -z "$MAGISK_APK" ]; then
     echo [*] Patch the OTA with custom kernel, no magisk
+    OUTPUT_OTA="$OUTPUT_OTA.patched"
     patch_ota \
-        --output "$OUTPUT_DIR/$ORIGINAL_OTA_FILE_NAME.custom_kernel.patched" \
+        --output "$OUTPUT_OTA" \
         --rootless
 else
     echo [*] Patch the OTA with custom kernel and magisk: $MAGISK_APK, preinit device: $MAGISK_PREINIT_DEVICE
+    OUTPUT_OTA="$OUTPUT_OTA""_magisk.patched"
     patch_ota \
-        --output "$OUTPUT_DIR/$ORIGINAL_OTA_FILE_NAME.custom_kernel_magisk.patched" \
+        --output "$OUTPUT_OTA" \
         --magisk "$MAGISK_APK" \
         --magisk-preinit-device "$MAGISK_PREINIT_DEVICE"
 fi
+
+echo [*] Expect patched OTA: $OUTPUT_OTA
+
