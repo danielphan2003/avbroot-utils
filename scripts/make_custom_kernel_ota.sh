@@ -107,7 +107,7 @@ function patch_boot () {
     avbroot boot unpack -i raw.img
 
     echo [*] Replace the kernel component
-    mv "$IMAGE" kernel.img
+    cp -v "$IMAGE" kernel.img
 
     echo [*] Repack boot.img
     avbroot boot pack -o raw.img
@@ -121,7 +121,7 @@ function patch_dtbo () {
     avbroot avb unpack -i ../dtbo.img
 
     echo [*] Replace the dtbo image
-    mv "$DTBO" raw.img
+    cp -v "$DTBO" raw.img
 
     echo [*] Repack dtbo.img
     avbroot avb pack -o ../dtbo.modified.img -k "$PRJ_ROOT/$TARGET/avb.key"
