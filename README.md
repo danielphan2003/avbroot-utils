@@ -4,7 +4,7 @@ A collection of utilities for [avbroot].
 
 Before executing any of the commands below, please [generate AVB keys]. Then put ota.crt, avb_pkmd.bin, ota.key, avb.key into a folder named `devices/${DEVICE_NAME}`, where `${DEVICE_NAME}` is the name of your device (used in `--target ${DEVICE_NAME}` in one of the options below).
 
-If you intend to use Magisk, please follow [Magisk preinit device guide] and edit the preinit device (`${PREINIT_DEVICE}`) that is used in option 2 and option 3.
+If you intend to use Magisk, please follow [Magisk preinit device guide] and edit the preinit device (`${PREINITDEVICE}`) that is used in option 2 and option 3.
 
 ![Project structure](./static/project_structure.png)
 
@@ -32,7 +32,7 @@ Example usage:
     --kernel-zip ~/Downloads/kernel.zip \
     --original-ota ~/Downloads/ota.zip \
     --magisk-apk ~/Downloads/app-release.apk \
-    --magisk-preinit-device ${PREINIT_DEVICE}
+    --magisk-preinit-device ${PREINITDEVICE}
 ```
 
 ## Option 3: `make_magisk_ota.sh`
@@ -46,7 +46,7 @@ Example usage:
     --output-dir ./otas/${DEVICE_NAME}/stock \
     --original-ota ~/Downloads/ota.zip \
     --magisk-apk ~/Downloads/app-release.apk \
-    --magisk-preinit-device ${PREINIT_DEVICE}
+    --magisk-preinit-device ${PREINITDEVICE}
 ```
 
 ## Finally: Do the initial setup in order
