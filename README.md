@@ -14,7 +14,7 @@ Create and sign an OTA without any modifications.
 
 Example usage:
 ```
-./scripts/make_custom_kernel_ota.sh \
+./scripts/make_normal_ota.sh \
     --target ${DEVICE_NAME} \
     --output-dir ./otas/${DEVICE_NAME}/stock \
     --original-ota ~/Downloads/ota.zip
